@@ -1,6 +1,8 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://coda-pay.vercel.app/api' // Replace with your actual production backend URL
+  : 'http://localhost:5000/api';
 
 // Create an Axios instance
 const apiClient = axios.create({
