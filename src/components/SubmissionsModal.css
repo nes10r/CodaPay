@@ -1,0 +1,24 @@
+.submission-modal {
+    width: 90%;
+    max-width: 800px;
+}
+
+.submission-modal .modal-body {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    font-size: 2rem;
+    line-height: 1;
+    color: #aaa;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.close-button:hover {
+    color: #333;
+} 

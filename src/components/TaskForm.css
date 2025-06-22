@@ -1,0 +1,656 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* Add this to the top of the file to override previous modal styles or ensure they are consistent */
+.modal-backdrop {
+    animation: fadeIn 0.3s ease-out;
+}
+.modal-content {
+    animation: slideUpFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUpFadeIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* === TaskForm Final Polish === */
+
+/* Base Form Control Styling */
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    color: #111827;
+    background-color: #fff;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.5; /* Ensure consistent height */
+}
+.form-control:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+.form-group textarea.form-control {
+    resize: vertical;
+    min-height: 80px;
+}
+.form-group select.form-control {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding-right: 32px;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+}
+
+/* Header and Footer */
+.task-form .modal-header, .task-form .modal-footer {
+    padding: 20px 30px;
+    transition: box-shadow 0.2s ease-in-out;
+}
+.task-form .modal-header {
+    border-bottom: 1px solid #e5e7eb;
+}
+.task-form .modal-header.scrolled {
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+}
+.task-form .modal-footer {
+    border-top: 1px solid #e5e7eb;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+/* Main scrollable area */
+.task-form .form-scroll-container {
+    padding: 25px 30px 45px 30px;
+    background-color: #f9fafb;
+}
+
+/* Form Sections and Groups */
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+.form-group label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+    display: block;
+}
+.task-details-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+.form-divider {
+    border: none;
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 35px 0;
+}
+.form-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    align-items: flex-end;
+}
+.form-row .form-group {
+    /* flex property is no longer needed with grid layout */
+}
+
+/* Questions Section */
+.questions-section h3 {
+    margin-bottom: 20px;
+}
+.question-editor-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 30px;
+    align-items: flex-start;
+}
+.question-nav {
+    position: sticky;
+    top: 90px;
+}
+
+/* Question Content Area */
+.question-content {
+    border-radius: 12px;
+    background-color: #fff;
+    border: 1px solid #e5e7eb;
+}
+.question-header {
+    padding: 15px 25px;
+    border-bottom: 1px solid #e5e7eb;
+}
+.question-content .form-container {
+    padding: 30px;
+}
+.question-content .option-input {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.question-content .option-input:last-of-type {
+    margin-bottom: 0;
+}
+.remove-option-btn {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    color: #9ca3af;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.remove-option-btn:hover {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+.add-option-btn {
+    margin-top: 20px;
+}
+.select-wrapper { /* For custom select arrow */
+    position: relative;
+}
+.select-wrapper::after {
+    content: '▼';
+    font-size: 10px;
+    color: #6b7280;
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* === TaskForm Modal UX/UI Improvement === */
+
+/* General Modal Structure */
+.task-form .modal-header {
+  padding: 20px 30px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  transition: box-shadow 0.2s ease-in-out;
+}
+.task-form .modal-header.scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+.task-form .modal-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #111827;
+}
+
+.task-form .form-scroll-container {
+  padding: 25px 30px 45px 30px;
+  background-color: #f9fafb;
+}
+
+.task-form .modal-footer {
+  position: sticky;
+  bottom: 0;
+  background-color: #ffffff;
+  padding: 15px 30px;
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  z-index: 10;
+  transition: box-shadow 0.2s ease-in-out;
+}
+.task-form .modal-footer.scrolled {
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.task-details-section {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid #e5e7eb;
+}
+
+.form-divider {
+  border: none;
+  height: 1px;
+  background-color: #e5e7eb;
+  margin: 35px 0;
+}
+
+/* Questions Section */
+.questions-section h3 {
+  font-size: 1.25rem;
+  color: #111827;
+  margin-bottom: 20px;
+  padding-left: 5px;
+}
+
+/* Question Editor Layout */
+.question-editor-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 30px;
+  align-items: flex-start;
+}
+
+/* Question Navigation */
+.question-nav {
+    position: sticky;
+    top: 90px; /* Adjust based on modal-header height */
+}
+.question-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.question-nav li button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 12px 15px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  background-color: #fff;
+  transition: background-color 0.2s, border-color 0.2s;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  color: #4b5563;
+}
+.question-nav li button:hover {
+    background-color: #f3f4f6;
+}
+.question-nav li.active button {
+    background-color: #eef2ff;
+    border-color: #a5b4fc;
+    color: #312e81;
+    font-weight: 600;
+}
+.question-nav-title {
+  flex-grow: 1;
+}
+.hidden-indicator {
+    color: #9ca3af;
+    display: flex;
+    align-items: center;
+}
+
+.add-question-nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px 15px;
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 1px dashed #d1d5db;
+}
+.add-question-nav-btn:hover {
+    background-color: #e5e7eb;
+    border-color: #9ca3af;
+}
+
+/* Question Content Area */
+.question-content {
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  overflow: hidden; /* To keep border-radius on children */
+}
+.question-content-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #6b7280;
+  font-size: 1rem;
+  min-height: 200px;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px dashed #e5e7eb;
+  border-radius: 12px;
+}
+.question-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 25px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #fff;
+}
+.question-header h4 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.question-actions button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.875rem;
+}
+.question-actions .danger-button.icon-button,
+.question-actions .visibility-toggle-btn {
+    border: 1px solid #d1d5db;
+    background-color: #fff;
+    transition: background-color 0.2s;
+}
+.question-actions .danger-button.icon-button span,
+.question-actions .visibility-toggle-btn span {
+    display: inline;
+}
+.question-actions .danger-button.icon-button:hover {
+    background-color: #fee2e2;
+    border-color: #fca5a5;
+    color: #b91c1c;
+}
+.question-actions .visibility-toggle-btn:hover {
+    background-color: #f3f4f6;
+}
+
+/* Question Content Body */
+.question-content > .form-row,
+.question-content > .form-group {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.question-content > .form-row {
+    flex-direction: row;
+    gap: 20px;
+}
+.question-content > .form-row .form-group {
+    padding: 0;
+    width: 100%;
+}
+.question-content .form-group {
+    margin-bottom: 22px;
+}
+.question-content .form-group:last-child {
+    margin-bottom: 0;
+}
+.question-content .option-input {
+    margin-bottom: 8px;
+}
+.question-content .option-input:last-of-type {
+    margin-bottom: 0;
+}
+
+/* Add Option Button */
+.add-option-btn {
+    margin-top: 15px;
+}
+
+.remove-option-btn {
+  background-color: #fff;
+  border: 1px solid #d1d5db;
+  color: #9ca3af;
+}
+.remove-option-btn:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #b91c1c;
+}
+
+/* Button Polish */
+.question-actions button span,
+.add-question-nav-btn span,
+.add-option-btn span {
+    vertical-align: middle;
+}
+
+.modal-footer .primary-button {
+    background-color: #4f46e5;
+}
+.modal-footer .primary-button:hover {
+    background-color: #4338ca;
+}
+.modal-footer .secondary-button {
+    background-color: #fff;
+    color: #4b5563;
+    border: 1px solid #d1d5db;
+}
+.modal-footer .secondary-button:hover {
+    background-color: #f9fafb;
+}
+
+/* Question Content Area */
+.question-content.hidden-question {
+    position: relative;
+    opacity: 0.6;
+}
+.question-content.hidden-question::before {
+    content: 'Bu sual gizlədilib və tələbəyə göstərilməyəcək.';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(249, 250, 251, 0.8);
+    color: #1f2937;
+    font-weight: 600;
+    z-index: 5;
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Let's redefine some of the previous styles for better consistency */
+.question-nav-title, .add-question-nav-btn span {
+    font-size: 0.9rem;
+}
+.question-nav li button, .add-question-nav-btn {
+    padding: 12px;
+}
+.question-header {
+    background-color: #fff;
+}
+.question-actions .visibility-toggle-btn span {
+    display: inline; /* Keep this if needed, but flex handles alignment */
+}
+.question-content {
+    border-radius: 12px;
+}
+.question-content-empty {
+    border-radius: 12px;
+}
+.form-group label {
+    font-weight: 500;
+    color: #374151;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.question-content textarea[name="testCases"],
+.question-content textarea[name="codeTemplate"] {
+    min-height: 120px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.95rem;
+    color: #374151;
+    background-color: #f9fafb;
+    border-color: #e5e7eb;
+}
+
+.question-content textarea[name="testCases"]:focus,
+.question-content textarea[name="codeTemplate"]:focus {
+    background-color: #fff;
+}
+
+.task-form-modal {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    width: 90vw;
+    max-width: 1200px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.task-form-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Contain scrolling within children */
+}
+
+.question-editor-layout {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-top: 1px solid #e9ecef;
+    overflow: hidden; /* Crucial for child scrolling */
+}
+
+.question-list-panel-form {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto; /* Allow this panel to scroll */
+}
+
+.question-list-panel-form .question-nav {
+    flex-grow: 1;
+}
+
+.add-question-btn {
+    /* ... existing styles for add button if any, or new ones ... */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px dashed #d0d5dd;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+    font-weight: 500;
+    color: #475467;
+    margin-top: 1rem; /* Space from the list */
+    transition: all 0.2s;
+}
+
+.add-question-btn:hover {
+    background-color: #f9fafb;
+    border-color: #4c6ef5;
+    color: #4c6ef5;
+}
+
+.question-detail-panel {
+    padding: 0 1.5rem; /* Adjust padding */
+    overflow-y: auto; /* Allow this panel to scroll independently */
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+/* New styles for image upload */
+.image-upload-label {
+    display: inline-block;
+    padding: 1rem 1.5rem;
+    border: 2px dashed #ced4da;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+
+.image-upload-label:hover {
+    border-color: #4c6ef5;
+    background-color: #f1f3f5;
+    color: #4c6ef5;
+}
+
+.image-preview-container {
+    position: relative;
+    max-width: 400px;
+}
+
+.image-preview {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+}
+
+.remove-image-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.remove-image-btn:hover {
+    background: #fa5252;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(33, 43, 54, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-header {
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+} 

@@ -1,0 +1,333 @@
+/* General Layout */
+.task-detail-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2rem;
+    height: calc(100vh - 60px); /* Assuming a header of 60px */
+    padding: 1rem;
+    background-color: #f8f9fa;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Left Panel: Question List */
+.question-list-panel {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e9ecef;
+}
+
+.question-list-panel h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #212529;
+    margin: 0 0 1rem;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 1rem;
+}
+
+.exam-timer {
+    background-color: #e7f5ff;
+    color: #1971c2;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.question-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.question-nav-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    margin-bottom: 0.5rem;
+}
+
+.question-nav-item:hover {
+    background-color: #f1f3f5;
+}
+
+.question-nav-item.active {
+    background-color: #4c6ef5;
+    color: white;
+    font-weight: 500;
+}
+
+.question-type-badge {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.question-nav-item:not(.active) .question-type-badge {
+    background-color: #e9ecef;
+    color: #495057;
+}
+
+
+/* Left Panel: Action Buttons */
+.exam-actions-container {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #f1f3f5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.exam-button {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.exam-button-danger {
+    background-color: #fa5252;
+    color: white;
+}
+.exam-button-danger:hover {
+    background-color: #e03131;
+}
+
+.exam-button-secondary {
+    background-color: #e9ecef;
+    color: #495057;
+}
+.exam-button-secondary:hover {
+    background-color: #dee2e6;
+}
+
+
+/* Right Panel: Question Content */
+.question-content-panel {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 2.5rem;
+    border: 1px solid #e9ecef;
+    overflow-y: auto;
+}
+
+.question-header h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #212529;
+    margin: 0 0 1.5rem;
+}
+
+.question-body p {
+    font-size: 1rem;
+    color: #495057;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Modern Radio/Multiple-Choice Options */
+.options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.option-label {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.25rem;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s;
+    font-size: 1rem;
+    color: #495057;
+}
+
+.option-label:hover {
+    border-color: #a5d8ff;
+    background-color: #f1f9ff;
+}
+
+.option-label.selected {
+    border-color: #4c6ef5;
+    background-color: #edf2ff;
+    font-weight: 500;
+}
+
+.option-label input[type="radio"] {
+    display: none; /* Hide the default radio button */
+}
+
+.option-label::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #ced4da;
+    margin-right: 1rem;
+    transition: border-color 0.2s, background-color 0.2s;
+}
+
+.option-label.selected::before {
+    border-color: #4c6ef5;
+    background-color: #4c6ef5;
+    box-shadow: inset 0 0 0 4px white;
+}
+
+.no-questions-placeholder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #868e96;
+    font-size: 1.2rem;
+}
+
+/* Fallback for old classnames, can be removed later */
+.page-container.task-detail-layout {
+    /* Ensures layout is applied even if old class is present */
+}
+.question-main-panel {
+    /* Redirect styling to new panel */
+    composes: question-content-panel;
+}
+.answer-section {
+    /* No specific styles needed, handled by children */
+}
+.options-container .option {
+    composes: option-label;
+}
+.text-answer-input {
+     width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+.code-question-container, .test-results-panel {
+    margin-top: 1rem;
+}
+.primary-button {
+    composes: exam-button;
+    background-color: #4c6ef5;
+    color: white;
+}
+.primary-button:hover {
+    background-color: #3b5bdb;
+}
+.error-message {
+    color: #fa5252;
+}
+.test-results-panel ul {
+    list-style: none;
+    padding: 0;
+}
+.test-results-panel li {
+    padding: 0.5rem 0;
+}
+.test-results-panel .pass { color: #37b24d; }
+.test-results-panel .fail { color: #f03e3e; }
+
+.start-exam-card, .submission-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+.start-exam-card .form-control {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    border: 1px solid #ced4da;
+}
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.start-exam-card {
+    max-width: 600px; /* Make it a bit wider */
+}
+
+/* New styles for the modernized start card */
+.start-exam-card.modern {
+    text-align: left;
+    padding: 2.5rem 3rem;
+}
+
+.start-exam-header {
+    text-align: center;
+    border-bottom: 1px solid #f1f3f5;
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.start-exam-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.start-exam-header p {
+    font-size: 1.1rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+}
+
+.exam-rules h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #343a40;
+}
+
+.exam-rules ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.exam-rules li {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    color: #495057;
+    margin-bottom: 1rem;
+    background-color: #f8f9fa;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+}
+
+.rule-icon {
+    font-size: 1.2rem;
+    margin-right: 1rem;
+}
+
+.large-button {
+    width: 100%;
+    margin-top: 2rem;
+    padding: 1rem;
+    font-size: 1.1rem;
+} 

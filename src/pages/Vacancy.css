@@ -1,0 +1,608 @@
+/* Vacancy.css */
+
+.vacancy-page-container {
+    display: flex;
+    gap: 2rem;
+    height: calc(100vh - 80px); /* Adjust based on your header's height */
+    padding: 1.5rem;
+    width: 100%;
+    background-color: #f7f9fc;
+}
+
+/* Left Panel: Vacancy List */
+.vacancy-list-panel {
+    width: 40%;
+    max-width: 450px;
+    border-right: 1px solid #e0e0e0;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    min-width: 400px;
+}
+
+.search-bar-container {
+    flex-shrink: 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.top-search-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 16px;
+    background-color: #ffffff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.search-bar-title {
+    font-size: 1em;
+    color: #007bff;
+    font-weight: 500;
+}
+
+.search-bar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-button, .filter-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    padding: 6px 10px;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #333;
+    transition: background-color 0.2s;
+}
+
+.icon-button {
+    color: #555;
+    padding: 6px;
+}
+
+.filter-button {
+    color: #007bff;
+    font-weight: 500;
+}
+
+.icon-button:hover, .filter-button:hover {
+    background-color: #f0f0f0;
+}
+
+.active-filters-container {
+    padding: 10px 15px;
+    background-color: #f7f9fc;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.filter-pill {
+    display: inline-flex;
+    align-items: center;
+    background-color: #e9ecef;
+    border-radius: 16px;
+    padding: 4px 8px 4px 12px;
+    font-size: 0.9em;
+    color: #495057;
+}
+
+.filter-pill button {
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1.1em;
+    margin-left: 8px;
+    padding: 0;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.filter-pill button:hover {
+    opacity: 1;
+}
+
+.vacancy-search-input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #e0e0e0;
+    font-size: 1em;
+    background-color: #fff;
+    transition: border-color 0.2s;
+    box-sizing: border-box; /* Padding-in enə daxil olmasını təmin edir */
+}
+
+.vacancy-search-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2); /* Yalnız focus olanda incə kölgə */
+}
+
+.vacancy-list-scroll {
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.vacancy-list-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.vacancy-list-item:hover {
+    background-color: #f5f5f5;
+}
+
+.vacancy-list-item.selected {
+    background-color: #e3f2fd;
+    border-right: 3px solid #007bff;
+}
+
+.vacancy-item-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: #333;
+    margin-right: 15px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.vacancy-item-info {
+    flex-grow: 1;
+    min-width: 0; /* Flexbox-da mətnin qırılması üçün vacibdir */
+}
+
+.vacancy-item-title {
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 5px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Uzun başlıqlar üçün */
+}
+
+.vacancy-item-company {
+    color: #666;
+    margin: 0;
+    font-size: 0.9em;
+}
+
+.vacancy-item-meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    font-size: 0.8em;
+    color: #777;
+    white-space: nowrap;
+    margin-left: 10px; /* İnfo bloku ilə arasında məsafə */
+    flex-shrink: 0; /* Bu blokun kiçilməsinə icazə vermir */
+}
+
+.meta-top-row {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Elementlər arasında məsafə */
+    margin-bottom: 5px;
+}
+
+.premium-badge {
+    background-color: #fffbe6;
+    color: #b28b00;
+    border: 1px solid #ffe58f;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: bold;
+    /* margin-bottom silindi, çünki artıq flexbox-un bir hissəsidir */
+}
+
+.views {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.posted {
+    margin-top: 2px;
+}
+
+.favorite {
+    font-size: 1.4em; /* İkonu bir az böyüdək */
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s, transform 0.2s;
+    opacity: 0.3;
+    margin-top: 4px; /* Yuxarıdakı elementlərdən ayırmaq üçün */
+}
+.favorite:hover, .vacancy-list-item:hover .favorite {
+    transform: scale(1.2);
+    opacity: 1;
+}
+.favorite.favorited {
+    color: #e74c3c;
+    opacity: 1;
+}
+
+.no-results {
+    padding: 20px;
+    text-align: center;
+    color: #777;
+}
+
+/* Right Panel: Vacancy Detail */
+.vacancy-detail-panel {
+    flex-grow: 1;
+    padding: 25px;
+    overflow-y: auto;
+}
+
+.no-vacancy-selected {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #777;
+    text-align: center;
+}
+
+.detail-header h1 {
+    font-size: 1.8em;
+    margin: 0 0 10px 0;
+    color: #2c3e50;
+    display: flex;
+    align-items: center;
+}
+
+.detail-header .verified-badge {
+    color: #28a745;
+    font-size: 0.8em;
+    margin-left: 10px;
+    background-color: #e9f7ef;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.detail-tags {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+    color: #555;
+    font-size: 0.9em;
+}
+.category-tag {
+    background-color: #eee;
+    padding: 3px 8px;
+    border-radius: 5px;
+}
+
+.category-tag.clickable {
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.category-tag.clickable:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.detail-tabs {
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 20px;
+}
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    font-size: 1em;
+    cursor: pointer;
+    color: #777;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px; /* align with container border */
+    transition: all 0.2s ease-in-out;
+}
+.tab-button.active {
+    color: #007bff;
+    border-bottom-color: #007bff;
+    font-weight: 600;
+}
+.tab-button:hover:not(.active) {
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+.detail-content {
+    color: #34495e;
+    line-height: 1.6;
+}
+
+.detail-content.fade-in {
+    animation: contentFadeIn 0.5s ease;
+}
+
+@keyframes contentFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.detail-content h4 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+.detail-content ul {
+    padding-left: 20px;
+}
+.detail-content li::marker {
+    color: #007bff;
+}
+
+.telegram-banner {
+    background-color: #e9f5ff;
+    border: 1px solid #bde0ff;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 25px 0;
+    text-align: center;
+}
+
+.telegram-banner a {
+    color: #007bff;
+    font-weight: bold;
+    text-decoration: none;
+}
+.telegram-banner a:hover {
+    text-decoration: underline;
+}
+
+.detail-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+.footer-actions {
+    display: flex;
+    gap: 20px;
+    color: #555;
+}
+.footer-actions span {
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.footer-actions span:hover {
+    color: #007bff;
+}
+
+.apply-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s, opacity 0.2s;
+}
+.apply-button:hover {
+    background-color: #0056b3;
+}
+.apply-button:disabled {
+    background-color: #28a745;
+    opacity: 1;
+    cursor: not-allowed;
+}
+.apply-button:disabled:hover {
+    background-color: #218838;
+}
+
+.active-filter-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 10px;
+    background-color: #e3f2fd;
+    color: #0d47a1;
+    font-size: 0.9em;
+    border-bottom: 1px solid #bde0ff;
+}
+
+.active-filter-banner button {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 50%;
+    color: #0d47a1;
+    cursor: pointer;
+    font-size: 1.2em;
+    line-height: 1;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.active-filter-banner button:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+    border-color: #0d47a1;
+}
+
+/* Print-specific styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .vacancy-detail-panel, .vacancy-detail-panel * {
+    visibility: visible;
+  }
+  
+  .vacancy-detail-panel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .detail-footer, .telegram-banner, .detail-tags, .detail-header .verified-badge {
+      display: none;
+  }
+  
+  .detail-header h1 {
+    font-size: 20pt;
+    margin-bottom: 20px;
+    border-bottom: 2px solid black;
+    padding-bottom: 10px;
+  }
+  
+  .detail-tabs {
+      border: none;
+  }
+  .tab-button.active {
+      border: none;
+      font-size: 16pt;
+      font-weight: bold;
+      color: black;
+  }
+  .detail-tabs .tab-button:not(.active) {
+      display: none;
+  }
+
+  body {
+    background-color: white;
+  }
+}
+
+.search-input-active {
+    display: none; /* No longer needed, replaced by advanced panel */
+}
+
+/* Advanced search panel styles */
+.advanced-search-panel {
+    background-color: #f8f9fa;
+    padding: 16px;
+}
+
+.advanced-search-header {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    padding: 6px 12px;
+    margin-bottom: 16px;
+}
+
+.search-icon-input {
+    color: #6c757d;
+    margin-right: 10px;
+}
+
+.advanced-search-input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #212529;
+    background-color: transparent;
+}
+
+.advanced-search-input::placeholder {
+    color: #6c757d;
+}
+
+.close-filter-button {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #dc3545;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 500;
+    padding-left: 12px;
+}
+
+.close-filter-button svg {
+    margin-right: 5px;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.filter-select-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.filter-select-wrapper::after {
+    content: '▼';
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    color: #6c757d;
+    font-size: 0.8rem;
+}
+
+.filter-select {
+    width: 100%;
+    padding: 10px 28px 10px 12px; /* Make space for the custom arrow */
+    border: 1px solid #ced4da;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-size: 0.9rem;
+    color: #495057;
+}
+
+.filter-select:hover {
+    border-color: #86b7fe;
+}
+
+.filter-select:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.25);
+}
+
+/* Remove old modal styles completely */
+.filter-modal-overlay,
+.filter-modal-content,
+.filter-modal-header,
+.close-modal-btn,
+.filter-category-list,
+.clear-filter-btn {
+    display: none;
+} 

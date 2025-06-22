@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "../App.css";
 import { Link } from "react-router-dom";
+import { authAPI } from "../services/api";
+import { useAuth } from "../services/AuthContext";
 
 const RegisterTypes = [
   { key: "user", label: "User" },
@@ -8,7 +10,8 @@ const RegisterTypes = [
   { key: "company", label: "Company" },
 ];
 
-const Login = ({ onLogin }) => {
+const Login = () => {
+  const { login } = useAuth();
   const [activeTab, setActiveTab] = useState("login");
   const [registerType, setRegisterType] = useState(null);
   const [email, setEmail] = useState("");
@@ -21,46 +24,76 @@ const Login = ({ onLogin }) => {
   const [regEmailValid, setRegEmailValid] = useState(false);
   const [regPasswordValid, setRegPasswordValid] = useState(false);
   const [regConfirmValid, setRegConfirmValid] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     setEmailValid(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value));
+    setError("");
   };
 
   const handlePasswordChange = (e) => {
     setPassword(e.target.value);
     setPasswordValid(e.target.value.length >= 6);
+    setError("");
   };
 
   const handleRegEmailChange = (e) => {
     setRegEmail(e.target.value);
     setRegEmailValid(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e.target.value));
+    setError("");
   };
 
   const handleRegPasswordChange = (e) => {
     setRegPassword(e.target.value);
     setRegPasswordValid(e.target.value.length >= 6);
     setRegConfirmValid(e.target.value === regConfirm && e.target.value.length >= 6);
+    setError("");
   };
 
   const handleRegConfirmChange = (e) => {
     setRegConfirm(e.target.value);
     setRegConfirmValid(e.target.value === regPassword && e.target.value.length >= 6);
+    setError("");
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Admin login yoxlaması
-    if ((email === "admin" || email === "admin@admin.com") && password === "admin") {
-      if (onLogin) onLogin();
-    } else {
-      alert("Invalid credentials!");
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await authAPI.login({ email, password });
+      login(response.data.user, response.data.token);
+    } catch (error) {
+      setError(error.response?.data?.message || error.message || "Giriş zamanı xəta baş verdi");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    // Burada register funksionallığı olacaq
+    setLoading(true);
+    setError("");
+
+    try {
+      const userData = {
+        username: regEmail.split('@')[0],
+        email: regEmail,
+        password: regPassword,
+        role: registerType
+      };
+
+      const response = await authAPI.register(userData);
+
+      login(response.data.user, response.data.token);
+    } catch (error) {
+      setError(error.response?.data?.message || error.message || "Qeydiyyat zamanı xəta baş verdi");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -78,6 +111,20 @@ const Login = ({ onLogin }) => {
               <span className={activeTab === "register" ? "active" : "inactive"} onClick={() => setActiveTab("register")}>Register</span>
             </div>
           </div>
+          
+          {error && (
+            <div style={{ 
+              color: '#d32f2f', 
+              backgroundColor: '#ffebee', 
+              padding: '10px', 
+              borderRadius: '4px', 
+              marginBottom: '20px',
+              textAlign: 'center'
+            }}>
+              {error}
+            </div>
+          )}
+
           {activeTab === "login" ? (
             <form onSubmit={handleSubmit} className="login-form">
               <div className="input-group">
@@ -87,6 +134,7 @@ const Login = ({ onLogin }) => {
                   value={email}
                   onChange={handleEmailChange}
                   required
+                  disabled={loading}
                 />
                 {email && (
                   <span className="clear-icon" style={{cursor: 'pointer', color:'#1976d2', fontWeight:'bold', fontSize:'20px', position:'absolute', right:'10px', top:'34px'}} onClick={() => setEmail("")}>&times;</span>
@@ -102,17 +150,23 @@ const Login = ({ onLogin }) => {
                   value={password}
                   onChange={handlePasswordChange}
                   required
+                  disabled={loading}
                 />
                 {password && (
                   <span className="clear-icon" style={{cursor: 'pointer', color:'#1976d2', fontWeight:'bold', fontSize:'20px', position:'absolute', right:'10px', top:'34px'}} onClick={() => setPassword("")}>&times;</span>
                 )}
               </div>
+              <div style={{ textAlign: 'right', marginBottom: '20px' }}>
+                <Link to="/forgot-password" style={{ color: '#1976d2', textDecoration: 'none' }}>
+                  Şifrəni unutdun?
+                </Link>
+              </div>
               <button
                 type="submit"
                 className="login-btn"
-                disabled={!( (emailValid && passwordValid) || ((email === "admin" || email === "admin@admin.com") && password === "admin") )}
+                disabled={loading || !(emailValid && passwordValid)}
               >
-                Log in
+                {loading ? "Giriş edilir..." : "Log in"}
               </button>
             </form>
           ) : (
@@ -123,63 +177,50 @@ const Login = ({ onLogin }) => {
                   className={`register-type-btn${registerType === type.key ? " selected" : ""}`}
                   onClick={() => setRegisterType(type.key)}
                   type="button"
+                  disabled={loading}
                 >
                   {type.label}
                 </button>
               ))}
-              {registerType === "user" && (
-                <form className="login-form" style={{marginTop: 24}}>
+              {registerType && (
+                <form className="login-form" style={{marginTop: 24}} onSubmit={handleRegister}>
                   <div className="input-group">
                     <label>Email</label>
-                    <input type="email" required />
+                    <input 
+                      type="email" 
+                      value={regEmail}
+                      onChange={handleRegEmailChange}
+                      required 
+                      disabled={loading}
+                    />
                   </div>
                   <div className="input-group">
                     <label>Password</label>
-                    <input type="password" required />
+                    <input 
+                      type="password" 
+                      value={regPassword}
+                      onChange={handleRegPasswordChange}
+                      required 
+                      disabled={loading}
+                    />
                   </div>
                   <div className="input-group">
                     <label>Confirm password</label>
-                    <input type="password" required />
+                    <input 
+                      type="password" 
+                      value={regConfirm}
+                      onChange={handleRegConfirmChange}
+                      required 
+                      disabled={loading}
+                    />
                   </div>
-                  <button className="login-btn" type="submit">Register as User</button>
-                </form>
-              )}
-              {registerType === "course" && (
-                <form className="login-form" style={{marginTop: 24}}>
-                  <div className="input-group">
-                    <label>Course Name</label>
-                    <input type="text" required />
-                  </div>
-                  <div className="input-group">
-                    <label>Email</label>
-                    <input type="email" required />
-                  </div>
-                  <div className="input-group">
-                    <label>Password</label>
-                    <input type="password" required />
-                  </div>
-                  <button className="login-btn" type="submit">Register as Course</button>
-                </form>
-              )}
-              {registerType === "company" && (
-                <form className="login-form" style={{marginTop: 24}}>
-                  <div className="input-group">
-                    <label>Company Name</label>
-                    <input type="text" required />
-                  </div>
-                  <div className="input-group">
-                    <label>Email</label>
-                    <input type="email" required />
-                  </div>
-                  <div className="input-group">
-                    <label>Password</label>
-                    <input type="password" required />
-                  </div>
-                  <div className="input-group">
-                    <label>Confirm password</label>
-                    <input type="password" required />
-                  </div>
-                  <button className="login-btn" type="submit">Register as Company</button>
+                  <button 
+                    className="login-btn" 
+                    type="submit"
+                    disabled={loading || !(regEmailValid && regPasswordValid && regConfirmValid)}
+                  >
+                    {loading ? "Qeydiyyat edilir..." : `Register as ${registerType}`}
+                  </button>
                 </form>
               )}
             </div>
